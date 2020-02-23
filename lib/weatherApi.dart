@@ -9,9 +9,11 @@ class Weather {
   Weather({this.cityName});
 
   Future<void> getWeather() async {
-    // Api key = 9cc4d396352649cab1e283fea41427fd
-    Response response = await get("https://api.weatherbit.io/v2.0/forecast/daily?city=$cityName&key=9cc4d396352649cab1e283fea41427fd");
+
     try {
+
+      // Api key = 9cc4d396352649cab1e283fea41427fd
+      Response response = await get("https://api.weatherbit.io/v2.0/forecast/daily?city=$cityName&key=9cc4d396352649cab1e283fea41427fd");
 
       Map data = jsonDecode(response.body);      
       // print(data['data']);

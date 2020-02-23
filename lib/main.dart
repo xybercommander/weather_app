@@ -13,13 +13,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  List<Weather> places = [
-    Weather(cityName: "Kolkata"),
-    Weather(cityName: "NewDelhi"),
-    Weather(cityName: "Chennai"),
-    Weather(cityName: "Mumbai"),
-    Weather(cityName: "Tokyo"),
-  ];
+  Weather obj = Weather(cityName: "Kolkata");
+  // List<Weather> places = [
+  //   Weather(cityName: "Kolkata"),
+  //   Weather(cityName: "NewDelhi"),
+  //   Weather(cityName: "Chennai"),
+  //   Weather(cityName: "Mumbai"),
+  //   Weather(cityName: "Tokyo"),
+  // ];
 
   List<String> images = [
     "assets/animeMorning.jpg",
@@ -68,11 +69,13 @@ class _HomeState extends State<Home> {
                     ),
                     IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: () {
+                      onPressed: () async {
+                        await obj.getWeather();
+                        images.shuffle();
                         if(counter != images.length) {
-                          displayImages.add(images[counter]);
+                          displayImages.add(images[0]);
                           setState(() {
-                            counter++;
+                            counter = displayImages.length - 1;
                           });
                         }  
                       },
@@ -83,21 +86,16 @@ class _HomeState extends State<Home> {
                 SizedBox(height: 20,),
                 Expanded(            
                   child: Container(                  
-                    child: Swiper(
+                    child: Swiper(       
+                      onTap: (index) {
+                        print(index);                        
+                      },               
                       itemCount: displayImages.length,
                       itemBuilder: (context, index) {
                         return Container(
                           width: 300,
-                          child: ClipRRect(                                                
-                            borderRadius: BorderRadius.circular(30),
-                            // child: DecoratedBox(                          
-                            //   decoration: BoxDecoration(                            
-                            //     image: DecorationImage(                                  
-                            //       image: AssetImage(displayImages[index]),
-                            //       fit: BoxFit.fill
-                            //     )
-                            //   ),
-                            // )
+                          child: ClipRRect(                       
+                            borderRadius: BorderRadius.circular(30),                            
                             child: Container(
                               decoration: BoxDecoration(                            
                                 image: DecorationImage(                                  
@@ -119,7 +117,10 @@ class _HomeState extends State<Home> {
                                           child: RawMaterialButton(
                                             shape: CircleBorder(),
                                             onPressed: () {
-                                              
+                                              setState(() {
+                                                displayImages.remove(displayImages[index]);
+                                              });
+                                              print(displayImages);
                                             },                                            
                                             child: Icon(Icons.remove, color: Colors.redAccent,),
                                           ),
@@ -149,9 +150,9 @@ class _HomeState extends State<Home> {
                   child: Row(                  
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
                     children: <Widget>[
-                      Text("day0", style: TextStyle(color: Colors.white60),),
                       Text("day1", style: TextStyle(color: Colors.white60),),
                       Text("day2", style: TextStyle(color: Colors.white60),),
+                      Text("day3", style: TextStyle(color: Colors.white60),),
                     ],
                   ),
                 ),
