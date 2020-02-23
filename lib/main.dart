@@ -68,9 +68,16 @@ class _HomeState extends State<Home> {
                     ),
                     IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: () {},
+                      onPressed: () {
+                        if(counter != images.length) {
+                          displayImages.add(images[counter]);
+                          setState(() {
+                            counter++;
+                          });
+                        }  
+                      },
                       color: Colors.white60
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 20,),
@@ -83,15 +90,51 @@ class _HomeState extends State<Home> {
                           width: 300,
                           child: ClipRRect(                                                
                             borderRadius: BorderRadius.circular(30),
-                            child: DecoratedBox(                          
+                            // child: DecoratedBox(                          
+                            //   decoration: BoxDecoration(                            
+                            //     image: DecorationImage(                                  
+                            //       image: AssetImage(displayImages[index]),
+                            //       fit: BoxFit.fill
+                            //     )
+                            //   ),
+                            // )
+                            child: Container(
                               decoration: BoxDecoration(                            
                                 image: DecorationImage(                                  
                                   image: AssetImage(displayImages[index]),
                                   fit: BoxFit.fill
                                 )
                               ),
-                            )  
+                              child: Column(                          
+                                children: <Widget>[
+                                  SizedBox(height: 5,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          child: RawMaterialButton(
+                                            shape: CircleBorder(),
+                                            onPressed: () {
+                                              
+                                            },                                            
+                                            child: Icon(Icons.remove, color: Colors.redAccent,),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Text("data"),
+                                  Text("data"),
+                                  Text("data"),
+                                ],
+                              )
+                            ),
                           ),
+                          
                         );
                       },
                       loop: false,
@@ -101,17 +144,16 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 SizedBox(height: 30,),
-                FloatingActionButton(
-                  onPressed: () {
-                    if(counter != images.length) {
-                      displayImages.add(images[counter]);
-                      setState(() {
-                        counter++;
-                      });
-                    }              
-                  },
-                  child: Icon(Icons.add),
-                  backgroundColor: Colors.amber[600],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(                  
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
+                    children: <Widget>[
+                      Text("day0", style: TextStyle(color: Colors.white60),),
+                      Text("day1", style: TextStyle(color: Colors.white60),),
+                      Text("day2", style: TextStyle(color: Colors.white60),),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 30,),
               ],
