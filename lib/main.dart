@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'weatherApi.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'searchPage.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -12,16 +14,13 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {  
 
   Weather obj = Weather(cityName: "Bangalore");
-  // List<Weather> places = [
-  //   Weather(cityName: "Kolkata"),
-  //   Weather(cityName: "NewDelhi"),
-  //   Weather(cityName: "Chennai"),
-  //   Weather(cityName: "Mumbai"),
-  //   Weather(cityName: "Tokyo"),
-  // ];
+
+  List<String> displayImages = [];
+
+  int counter = 0;
 
   List<String> images = [
     "assets/animeMorning.jpg",
@@ -30,14 +29,11 @@ class _HomeState extends State<Home> {
     "assets/ClearDay.jpg",
     "assets/FirewatchNight.jpg",
   ];
-
-  List<String> displayImages = [];
-
-  int counter = 0;
  
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Center(
         child: Container(
@@ -51,8 +47,8 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.black.withOpacity(0.6),
-                  Colors.black.withOpacity(0.6),
+                  Colors.black.withOpacity(0.4),
+                  Colors.black.withOpacity(0.4),
                 ]
               )
             ),
@@ -74,7 +70,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w200,
                           letterSpacing: 2,
                           color: Colors.white60
                         ),
@@ -82,14 +78,18 @@ class _HomeState extends State<Home> {
                       IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () async {
-                          await obj.getWeather();
-                          images.shuffle();
-                          if(counter != images.length) {
-                            displayImages.add(images[0]);
-                            setState(() {
-                              counter = displayImages.length - 1;
-                            });
-                          }  
+                          Navigator.push(context, PageTransition(child: SearchPage(), type: PageTransitionType.rightToLeftWithFade));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //   builder: (context) => SearchPage(),
+                          // ));
+                          // await obj.getWeather();
+                          // images.shuffle();
+                          // if(counter != images.length) {
+                          //   displayImages.add(images[0]);
+                          //   setState(() {
+                          //     counter = displayImages.length - 1;
+                          //   });
+                          // }  
                         },
                         color: Colors.white60
                       ),
@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                                     ),
                                     SizedBox(height: 7,),
                                     Text(
-                                      "${obj.cityName}, ${obj.countryCode}",
+                                      "${obj.cityName},${obj.countryCode}",
                                       style: TextStyle(
                                         fontFamily: "Montserrat",
                                         fontSize: 35,
@@ -213,25 +213,9 @@ class _HomeState extends State<Home> {
           ),
         ),
       )
-       
     );
   }
 
-  Widget photoCard(int index) {
-    return Container(
-      width: 300,
-      child: ClipRRect(                      
-        borderRadius: BorderRadius.circular(30),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(images[index]),
-              fit: BoxFit.fill
-            )
-          ),
-        )
-      ),
-    );
-  }  
-
+  @override
+  bool get wantKeepAlive => true;
 }
