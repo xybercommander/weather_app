@@ -24,9 +24,9 @@ class _HomeState extends State<Home> {
 
   List<String> images = [
     "assets/animeMorning.jpg",
-    "assets/aestheticEvening.jpg",
-    "assets/animeMorning2.jpg",
-    "assets/DawnAnime.jpg",
+    "assets/ClearNightSky.jpg",
+    "assets/CloudyDay.jpg",
+    "assets/ClearDay.jpg",
     "assets/FirewatchNight.jpg",
   ];
 
@@ -64,6 +64,9 @@ class _HomeState extends State<Home> {
                       "Weather",
                       style: TextStyle(
                         fontSize: 20,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 2,
                         color: Colors.white60
                       ),
                     ),
@@ -88,7 +91,7 @@ class _HomeState extends State<Home> {
                   child: Container(                  
                     child: Swiper(       
                       onTap: (index) {
-                        print(index);                        
+                        // print(index);                        
                       },               
                       itemCount: displayImages.length,
                       itemBuilder: (context, index) {
@@ -128,9 +131,37 @@ class _HomeState extends State<Home> {
                                       ],
                                     ),
                                   ),
-                                  Text("data"),
-                                  Text("data"),
-                                  Text("data"),
+                                  SizedBox(height: 7,),
+                                  Text(
+                                    "${obj.cityName}, ${obj.countryCode}",
+                                    style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontSize: 35,
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w200,
+                                      letterSpacing: 1
+                                    ),
+                                  ),
+                                  SizedBox(height: 2,),
+                                  Text(
+                                    "${obj.finalDate}",
+                                    style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300
+                                    ),
+                                  ),
+                                  SizedBox(height: 50,),
+                                  Text(
+                                    "${obj.temp}°C",
+                                    style: TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontSize: 55,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white70                                       
+                                    ),
+                                  ),
                                 ],
                               )
                             ),

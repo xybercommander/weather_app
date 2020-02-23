@@ -5,6 +5,26 @@ import 'package:intl/intl.dart';
 class Weather {
 
   String cityName;
+  String countryCode;
+  String date;
+  double temp;
+  String currentMonth;
+  String finalDate;
+
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",  
+  ];
 
   Weather({this.cityName});
 
@@ -18,12 +38,23 @@ class Weather {
       Map data = jsonDecode(response.body);      
       // print(data['data']);
       List dataList = data['data'];
-      Map day1 = dataList[0];
-      Map day2 = dataList[1];
-      print('Values of day1 : ');
-      print(day1);
-      print('Values of day2 : ');
-      print(day2);
+      Map day0 = dataList[0];      
+      Map day1 = dataList[1];
+      Map day2 = dataList[2];
+      date = day0['datetime'];
+      
+      if(date[5] == '0'){
+        currentMonth = months[int.parse(date[6]) - 1];        
+      }else {
+        currentMonth = months[(int.parse(date[6]) + 10) - 1];
+      }
+      finalDate = "$currentMonth ${date.substring(8)}, ${date.substring(0, 4)}";      
+      countryCode = data['country_code'];
+      temp = day0['temp'];
+      // print('Values of day1 : ');
+      // print(day1);
+      // print('Values of day2 : ');
+      // print(day2);
 
     } catch (e) {  
       print(e);
