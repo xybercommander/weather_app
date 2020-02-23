@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -108,16 +108,41 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                       SizedBox(height: 30,),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        child: RawMaterialButton(
-                          shape: CircleBorder(),
-                          onPressed: () {
-                            
-                          },                                            
-                          child: Icon(Icons.search)
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(width: 1,),
+                          Stack(
+                            children: <Widget>[
+                              SpinKitChasingDots(
+                                size: 80,
+                                color: Colors.white.withOpacity(0.3),
+                              
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black.withOpacity(0.30),
+                                      Colors.black.withOpacity(0.30),
+                                    ]
+                                  ),
+                                  borderRadius: BorderRadius.circular(35)
+                                ),
+                                height: 60,
+                                width: 60,
+                                child: RawMaterialButton(
+                                  shape: CircleBorder(),
+                                  onPressed: () {
+                                    
+                                  },                                            
+                                  child: Icon(Icons.search, color: Colors.white60),                                  
+                                ),
+                              ),                              
+                            ],
+                          ),
+                          SizedBox(width: 1,),
+                        ],
                       )
                     ],
                   ),
