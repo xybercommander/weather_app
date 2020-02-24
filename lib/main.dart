@@ -244,15 +244,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           color: Colors.white70
                                         ),
                                       ),
-                                      // Text(
-                                      //   "${cities[index].description}",
-                                      //   style: TextStyle(
-                                      //     fontFamily: "Montserrat",
-                                      //     fontSize: 14,
-                                      //     letterSpacing: 1,
-                                      //     color: Colors.white70
-                                      //   ),
-                                      // ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 6),
                                         child: AutoSizeText(
@@ -343,7 +334,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
-                                        AssetImage("assets/c04d.png") :
+                                        AssetImage("assets/blank-image.jpg") :
                                         AssetImage("assets/${weatherIcons["${cities[dayIndex].description1}"]}")
                                     )
                                   ),
