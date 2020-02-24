@@ -66,6 +66,48 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "null" : "none.png",
   };
 
+  Map weatherBackground = {
+    "Thunderstorm with light rain" : "thunder.jpg",
+    "Thunderstorm with rain" : "thunder.jpg",
+    "Thunderstorm with heavy rain" : "thunder.jpg",
+    "Thunderstorm with light drizzle" : "thunder.jpg",
+    "Thunderstorm with drizzle" : "thunder.jpg",
+    "Thunderstorm with heavy drizzle" : "thunder.jpg",
+    "Thunderstorm with hail" : "thunder.jpg",
+    "Light drizzle" : "rainyDay.jpg",
+    "Drizzle" : "rainyDay.jpg",
+    "Heavy drizzle" : "heavyRain.jpg",
+    "Light rain" : "rainyDay.jpg",
+    "Moderate rain" : "rainyDay.jpg",
+    "Heavy rain" : "heavyRain.jpg",
+    "Freezing rain" : "heavyRain.jpg",
+    "Light shower rain" : "rainyDay.jpg",
+    "Shower rain" : "rainyDay.jpg",
+    "Heavy shower rain" : "heavyRain.jpg",
+    "Light snow" : "snow.jpg",
+    "Snow" : "snow.jpg",
+    "Heavy snow" : "snow.jpg",
+    "Mix snow/rain" : "rainyDay.jpg",
+    "Sleet" : "snowShower.jpg",
+    "Heavy sleet" : "snowShower.jpg",
+    "Snow shower" : "snowShower.jpg",
+    "Heavy snow shower" : "snowShower.jpg",
+    "Flurries" : "foggy.jpg",
+    "Mist" : "foggy.jpg",
+    "Smoke" : "foggy.jpg",
+    "Haze" : "animeMorning2.jpg",
+    "Sand/dust" : "ClearDay2.jpg",
+    "Fog" : "foggy.jpg",
+    "Freezing Fog" : "aestheticEvening.jpg",
+    "Clear Sky" : "clearMorning.jpg",
+    "Few clouds" : "CloudyDay.jpg",
+    "Broken clouds" : "animeMorning.jpg",
+    "Overcast clouds" : "CloudyDay.jpg",
+    "Scattered clouds" : "animeMorning.jpg",
+    "Unknown Precipitation" : "heavyRain.jpg",
+    "null" : "rainyDay.jpg",
+  };
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +186,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               child: Container(
                                 decoration: BoxDecoration(                                 
                                   image: DecorationImage(                                  
-                                    image: AssetImage("assets/rainyDay.jpg"),
+                                    image: AssetImage("assets/${weatherBackground["${cities[dayIndex].description0}"]}"),
                                     fit: BoxFit.fill
                                   )
                                 ),
@@ -152,8 +194,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        Colors.black.withOpacity(0.4),
-                                        Colors.black.withOpacity(0.4)
+                                        Colors.black.withOpacity(0.45),
+                                        Colors.black.withOpacity(0.45)
                                       ]
                                     )
                                   ),
@@ -207,7 +249,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           style: TextStyle(
                                             fontFamily: "Montserrat",
                                             fontSize: 35,
-                                            color: Colors.white70,
+                                            color: Colors.grey[200],
                                             fontWeight: FontWeight.w200,
                                             letterSpacing: 1
                                           ),
@@ -218,7 +260,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                         "${cities[index].finalDate}",
                                         style: TextStyle(
                                           fontFamily: "Montserrat",
-                                          color: Colors.white70,
+                                          color: Colors.grey[200],
                                           fontSize: 14,
                                           fontWeight: FontWeight.w300
                                         ),
@@ -230,14 +272,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           fontFamily: "Montserrat",
                                           fontSize: 55,
                                           fontWeight: FontWeight.w300,
-                                          color: Colors.white70                                       
+                                          color: Colors.grey[200],                                   
                                         ),
                                       ),
                                        Text(
                                         "Feels like : ${cities[index].feelsLike}°C",
                                         style: TextStyle(
                                           fontFamily: "Montserrat",
-                                          color: Colors.white70,
+                                          color: Colors.grey[200],
                                           fontSize: 14,
                                           fontWeight: FontWeight.w300
                                         ),
@@ -248,7 +290,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           fontFamily: "Montserrat",
                                           fontSize: 10,
                                           letterSpacing: 1,
-                                          color: Colors.white70
+                                          color: Colors.grey[200],
                                         ),
                                       ),
                                       Padding(
@@ -259,7 +301,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           style: TextStyle(
                                             fontFamily: "Montserrat",
                                             fontSize: 14,
-                                            color: Colors.white70,
+                                            color: Colors.grey[200],
                                             fontWeight: FontWeight.w200,
                                             letterSpacing: 1
                                           ),
@@ -272,7 +314,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           fontFamily: "Montserrat",
                                           fontSize: 12,
                                           letterSpacing: 0,
-                                          color: Colors.white70
+                                          color: Colors.grey[200],
                                         ),
                                       ),
                                     ],
