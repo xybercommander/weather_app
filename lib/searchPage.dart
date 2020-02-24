@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/weatherApi.dart';
+import 'main.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -10,6 +12,9 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
 
   PageController controller = PageController();
+  final TextEditingController mycontroller = TextEditingController();
+
+  
 
   @override
   Widget build(BuildContext context) {    
@@ -99,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
                                     fontFamily: "Montserrat",
                                     fontSize: 20
                                   ),
-                                  // controller: mycontroller,
+                                  controller: mycontroller,
                                   onSubmitted: (String str) {},
                                 ),
                               )
@@ -112,34 +117,25 @@ class _SearchPageState extends State<SearchPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           SizedBox(width: 1,),
-                          Stack(
-                            children: <Widget>[
-                              SpinKitChasingDots(
-                                size: 80,
-                                color: Colors.white.withOpacity(0.3),
-                              
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.black.withOpacity(0.30),
+                                  Colors.black.withOpacity(0.30),
+                                ]
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0.30),
-                                      Colors.black.withOpacity(0.30),
-                                    ]
-                                  ),
-                                  borderRadius: BorderRadius.circular(35)
-                                ),
-                                height: 60,
-                                width: 60,
-                                child: RawMaterialButton(
-                                  shape: CircleBorder(),
-                                  onPressed: () {
-                                    
-                                  },                                            
-                                  child: Icon(Icons.search, color: Colors.white60),                                  
-                                ),
-                              ),                              
-                            ],
+                              borderRadius: BorderRadius.circular(35)
+                            ),
+                            height: 60,
+                            width: 60,
+                            child: RawMaterialButton(
+                              shape: CircleBorder(),
+                              onPressed: () {
+                                _sendDataBack(context);
+                              },                                            
+                              child: Icon(Icons.search, color: Colors.white60),                                  
+                            ),
                           ),
                           SizedBox(width: 1,),
                         ],
@@ -154,4 +150,12 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  void _sendDataBack(BuildContext context) async {
+    String textToSendBack = mycontroller.text;
+    Weather obj = Weather(cityName: textToSendBack);
+    await obj.getWeather();
+    Navigator.pop(context, obj);
+  }
+
 }

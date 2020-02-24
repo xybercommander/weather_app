@@ -7,10 +7,18 @@ class Weather {
   String cityName;
   String countryCode;
   String date;
-  int temp;
-  double feelsLike;
+  dynamic temp;
+  String finalTemp;
+  String feelsLike;
   String currentMonth;
   String finalDate;
+  String errorText;
+  String description;
+  dynamic lowTemp;
+  dynamic highTemp;
+
+  String finalLowTemp;
+  String finalHighTemp;
 
   List<String> months = [
     "January",
@@ -41,6 +49,7 @@ class Weather {
       Map currentDatatemp = jsonDecode(response2.body);
       List tempData = currentDatatemp['data'];
       Map finalTempData = tempData[0];
+      Map weatherDetails = finalTempData['weather'];
 
       // print(data['data']);
       List dataList = data['data'];
@@ -57,7 +66,19 @@ class Weather {
       finalDate = "$currentMonth ${date.substring(8)}, ${date.substring(0, 4)}";      
       countryCode = data['country_code'];
       temp = finalTempData['temp'];
-      feelsLike = finalTempData['app_temp'];
+      finalTemp = "$temp";
+      feelsLike = "${finalTempData['app_temp']}";
+      description = weatherDetails['description'];
+
+      lowTemp = day0['low_temp'];
+      highTemp = day0['max_temp']; 
+
+      finalLowTemp = "$lowTemp";    
+      finalHighTemp = "$highTemp";
+
+      // feelsLike = double.parse(finalTempData['app_temp']);
+
+      
 
       // print('Values of day1 : ');
       // print(day1);
@@ -67,6 +88,8 @@ class Weather {
     } catch (e) {  
       print(e);
       print('Could not retrieve data');
+      errorText = "No such city found";
+      cityName = errorText;
     }
 
   }

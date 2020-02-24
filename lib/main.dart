@@ -3,6 +3,7 @@ import 'weatherApi.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'searchPage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -16,20 +17,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {  
 
-  Weather obj = Weather(cityName: "Bangalore");
+  Weather obj = Weather(cityName: "Bangalore");    
 
-  List<String> displayImages = [];
-
-  int counter = 0;
-
-  List<String> images = [
-    "assets/animeMorning.jpg",
-    "assets/ClearNightSky.jpg",
-    "assets/CloudyDay.jpg",
-    "assets/ClearDay.jpg",
-    "assets/FirewatchNight.jpg",
-  ];
- 
+  String text = "";  
+  List<Weather> cities = [];
+  
+  int dayIndex = -1;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +56,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Icons.info),
-                        onPressed: () {},
+                        onPressed: () {
+                          print(dayIndex);     
+                        },
                         color: Colors.white60
                       ),
                       Text(
@@ -78,32 +74,29 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () async {
-                          Navigator.push(context, PageTransition(child: SearchPage(), type: PageTransitionType.rightToLeftWithFade));
-                          // Navigator.of(context).push(MaterialPageRoute(
-                          //   builder: (context) => SearchPage(),
-                          // ));
-                          // await obj.getWeather();
-                          // images.shuffle();
-                          // if(counter != images.length) {
-                          //   displayImages.add(images[0]);
-                          //   setState(() {
-                          //     counter = displayImages.length - 1;
-                          //   });
-                          // }  
+                          if(dayIndex == -1){
+                            setState(() {
+                              dayIndex = 0;
+                            });
+                          }
+                          _awaitReturnValueFromSecondScreen(context);                          
                         },
                         color: Colors.white60
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 25,),
                   Expanded(            
                     child: Container(                                    
-                      child: Swiper(       
-                        onTap: (index) {
-                          // print(index);                        
-                        },               
-                        itemCount: displayImages.length,
-                        itemBuilder: (context, index) {
+                      child: Swiper(                             
+                        onIndexChanged: (value) {
+                           setState(() {
+                             dayIndex = value;
+                           });                                                
+                          print(value);
+                        },                              
+                        itemCount: cities.length,                        
+                        itemBuilder: (context, index) {                          
                           return Container(
                             height: 100,
                             width: 300,
@@ -112,76 +105,118 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               child: Container(
                                 decoration: BoxDecoration(                                 
                                   image: DecorationImage(                                  
-                                    image: AssetImage(displayImages[index]),
+                                    image: AssetImage("assets/rainyDay.jpg"),
                                     fit: BoxFit.fill
                                   )
                                 ),
-                                child: Column(                          
-                                  children: <Widget>[
-                                    SizedBox(height: 5,),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Container(
-                                            height: 40,
-                                            width: 40,
-                                            child: RawMaterialButton(
-                                              shape: CircleBorder(),
-                                              onPressed: () {
-                                                setState(() {
-                                                  displayImages.remove(displayImages[index]);
-                                                });
-                                                print(displayImages);
-                                              },                                            
-                                              child: Icon(Icons.remove, color: Colors.redAccent,),
-                                            ),
-                                          )
-                                        ],
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.black.withOpacity(0.4),
+                                        Colors.black.withOpacity(0.4)
+                                      ]
+                                    )
+                                  ),
+                                  child: Column(                          
+                                    children: <Widget>[
+                                      SizedBox(height: 5,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              child: RawMaterialButton(
+                                                shape: CircleBorder(),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    cities.remove(cities[index]);
+                                                  });
+                                                  print("Length of cities list : ${cities.length}");
+                                                },                                            
+                                                child: Icon(Icons.remove, color: Colors.redAccent,),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 7,),
-                                    Text(
-                                      "${obj.cityName},${obj.countryCode}",
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        fontSize: 35,
-                                        color: Colors.white70,
-                                        fontWeight: FontWeight.w200,
-                                        letterSpacing: 1
+                                      SizedBox(height: 7,),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                        child: AutoSizeText(
+                                          "${cities[index].cityName[0].toUpperCase()}${cities[index].cityName.substring(1)}, ${cities[index].countryCode}",
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 35,
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w200,
+                                            letterSpacing: 1
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 2,),
-                                    Text(
-                                      "${obj.finalDate}",
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        color: Colors.white70,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300
+                                      SizedBox(height: 2,),
+                                      Text(
+                                        "${cities[index].finalDate}",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w300
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 50,),
-                                    Text(
-                                      "${obj.temp}°C",
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        fontSize: 55,
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white70                                       
+                                      SizedBox(height: 30,),
+                                      Text(
+                                        "${cities[index].finalTemp}°C",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: 55,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white70                                       
+                                        ),
                                       ),
-                                    ),
-                                     Text(
-                                      "Feels like : ${obj.feelsLike}°C",
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        color: Colors.white70,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300
+                                       Text(
+                                        "Feels like : ${cities[index].feelsLike}°C",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w300
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        "----------------",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: 10,
+                                          letterSpacing: 1,
+                                          color: Colors.white70
+                                        ),
+                                      ),
+                                      Text(
+                                        "${cities[index].description}",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: 14,
+                                          letterSpacing: 1,
+                                          color: Colors.white70
+                                        ),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        "${cities[index].finalLowTemp}°C / ${cities[index].finalHighTemp}°C",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: 12,
+                                          letterSpacing: 0,
+                                          color: Colors.white70
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 )
                               ),
                             ),
@@ -194,15 +229,81 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(height: 60,),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(                  
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
                       children: <Widget>[
-                        Text("day1", style: TextStyle(color: Colors.white60),),
-                        Text("day2", style: TextStyle(color: Colors.white60),),
-                        Text("day3", style: TextStyle(color: Colors.white60),),
+                        dayIndex == -1? SizedBox(width: 1,) :
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+                              children: <Widget>[
+                                Icon(Icons.cloud, color: Colors.white70,),
+                                SizedBox(height: 2,),
+                                Text(
+                                  // "data",
+                                  // "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C",
+                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12
+                                  ),
+                                ),
+                                SizedBox(height: 1,),
+                                Text("day0", style: TextStyle(color: Colors.white70),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        dayIndex == -1? SizedBox(width: 1,) :
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.cloud, color: Colors.white70,),
+                                SizedBox(height: 1,),
+                                Text(
+                                  // "data",
+                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12
+                                  ),
+                                ),
+                                SizedBox(height: 1,),
+                                Text("day1", style: TextStyle(color: Colors.white70),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        dayIndex == -1? SizedBox(width: 1,) :
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.cloud, color: Colors.white70,),
+                                SizedBox(height: 1,),
+                                Text(
+                                  // "data",
+                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12
+                                  ),
+                                ),
+                                SizedBox(height: 1,),
+                                Text("day2", style: TextStyle(color: Colors.white70),),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -216,6 +317,22 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     );
   }
 
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    final Weather result = await Navigator.push(
+      context,
+      PageTransition(child: SearchPage(), type: PageTransitionType.rightToLeftWithFade)
+    );
+
+    if (result != null){
+      setState(() {        
+        cities.add(result);        
+      });
+    }    
+    
+  }
+  
   @override
   bool get wantKeepAlive => true;
+
 }
