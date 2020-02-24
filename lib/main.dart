@@ -243,7 +243,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
                               children: <Widget>[
-                                Icon(Icons.cloud, color: Colors.white70,),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage("assets/a01d.png")
+                                    )
+                                  ),
+                                ),
                                 SizedBox(height: 2,),
                                 Text(
                                   // "data",
