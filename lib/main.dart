@@ -63,7 +63,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Overcast clouds" : "c04d.png",
     "Scattered clouds" : "c02d.png",
     "Unknown Precipitation" : "r01d.png",
-    "null" : "c04d.png",
+    "null" : "none.png",
   };
 
 
@@ -171,7 +171,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                               child: RawMaterialButton(
                                                 shape: CircleBorder(),
                                                 onPressed: () {
-                                                  if(cities.isEmpty){
+                                                  if(cities.length == 1){
                                                     setState(() {
                                                       dayIndex = -1;
                                                     });
@@ -312,6 +312,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     )
                                   ),
                                 ),
+                                SizedBox(height: 2,),
                                 Text(
                                   // "data",
                                   // "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C",
@@ -351,7 +352,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     )
                                   ),
                                 ),
-                                SizedBox(height: 1,),
+                                SizedBox(height: 2,),
                                 Text(
                                   // "data",
                                   dayIndex == -1 ? "":
@@ -390,7 +391,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     )
                                   ),
                                 ),
-                                SizedBox(height: 1,),
+                                SizedBox(height: 2,),
                                 Text(
                                   // "data",
                                   dayIndex == -1 ? "" :
