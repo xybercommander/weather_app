@@ -63,6 +63,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Overcast clouds" : "c04d.png",
     "Scattered clouds" : "c02d.png",
     "Unknown Precipitation" : "r01d.png",
+    "null" : "c04d.png",
   };
 
 
@@ -170,20 +171,26 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                               child: RawMaterialButton(
                                                 shape: CircleBorder(),
                                                 onPressed: () {
-                                                  setState(() {
-                                                    cities.remove(cities[index]);                                                    
-                                                  });
-                                                  if(cities.length == 0){
+                                                  if(cities.isEmpty){
                                                     setState(() {
                                                       dayIndex = -1;
                                                     });
-                                                  }else{
-                                                    setState(() {
-                                                      dayIndex = index;
-                                                    });
+                                                  }else{                                                    
+                                                    if(cities.length == 2){ // when only 2 places are left
+                                                      setState(() {
+                                                        dayIndex = 0;
+                                                      });
+                                                    }else{ // when more than 2 places are left
+                                                      setState(() {
+                                                        dayIndex = index;
+                                                      });
+                                                    }
                                                   }
+                                                  setState(() {
+                                                    cities.remove(cities[index]);                                                    
+                                                  });                                                  
                                                   print(dayIndex);
-                                                  print("Length of cities list : ${cities.length}");
+                                                  // print("Length of cities list : ${cities.length}");
                                                 },                                            
                                                 child: Icon(Icons.remove, color: Colors.redAccent,),
                                               ),
@@ -277,8 +284,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                           );
                         },
                         loop: false,
-                        scale: 0.85,
-                        viewportFraction: 0.72,
+                        scale: 0.80,
+                        viewportFraction: 0.74,
                       ),
                     ),
                   ),
@@ -295,8 +302,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
                               children: <Widget>[
                                 Container(
-                                  width: 45,
-                                  height: 45,
+                                  width: dayIndex == -1 ? 0 : 45,
+                                  height: dayIndex == -1 ? 0 : 45,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
@@ -308,7 +315,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 Text(
                                   // "data",
                                   // "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C",
-                                  dayIndex == -1 ? "No Data" :
+                                  dayIndex == -1 ? "" :
                                   "${cities[dayIndex].finalLowTemp0}°C/${cities[dayIndex].finalHighTemp0}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
@@ -316,7 +323,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 SizedBox(height: 1,),
-                                Text("day0", style: TextStyle(color: Colors.white70),),
+                                Text(
+                                  dayIndex == -1 ? "" : "day0", 
+                                  style: TextStyle(
+                                    color: Colors.white70
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -329,12 +341,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  width: 45,
-                                  height: 45,
+                                  width: dayIndex == -1 ? 0 : 45,
+                                  height: dayIndex == -1 ? 0 : 45,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
-                                        AssetImage("assets/blank-image.jpg") :
+                                        AssetImage("assets/c04d.png") :
                                         AssetImage("assets/${weatherIcons["${cities[dayIndex].description1}"]}")
                                     )
                                   ),
@@ -342,7 +354,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 SizedBox(height: 1,),
                                 Text(
                                   // "data",
-                                  dayIndex == -1 ? "No Data":
+                                  dayIndex == -1 ? "":
                                   "${cities[dayIndex].finalLowTemp1}°C/${cities[dayIndex].finalHighTemp1}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
@@ -350,7 +362,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 SizedBox(height: 1,),
-                                Text("day1", style: TextStyle(color: Colors.white70),),
+                                Text(
+                                  dayIndex == -1 ? "" : "day1", 
+                                  style: TextStyle(
+                                    color: Colors.white70
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -363,8 +380,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  width: 45,
-                                  height: 45,
+                                  width: dayIndex == -1 ? 0 : 45,
+                                  height: dayIndex == -1 ? 0 : 45,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
@@ -376,7 +393,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 SizedBox(height: 1,),
                                 Text(
                                   // "data",
-                                  dayIndex == -1 ? "No Data" :
+                                  dayIndex == -1 ? "" :
                                   "${cities[dayIndex].finalLowTemp2}°C/${cities[dayIndex].finalHighTemp2}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
@@ -384,7 +401,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 SizedBox(height: 1,),
-                                Text("day2", style: TextStyle(color: Colors.white70),),
+                                Text(
+                                  dayIndex == -1 ? "" : "day2", 
+                                  style: TextStyle(
+                                    color: Colors.white70
+                                  ),
+                                ),
                               ],
                             ),
                           ),
