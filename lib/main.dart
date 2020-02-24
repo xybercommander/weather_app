@@ -57,10 +57,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Sand/dust" : "a01d.png",
     "Fog" : "a01d.png",
     "Freezing Fog" : "a01d.png",
-    "Clear sky" : "c01d.png",
+    "Clear Sky" : "c01d.png",
     "Few clouds" : "c02d.png",
     "Broken clouds" : "c03d.png",
     "Overcast clouds" : "c04d.png",
+    "Scattered clouds" : "c02d.png",
     "Unknown Precipitation" : "r01d.png",
   };
 
@@ -120,8 +121,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 25,),
-                  Expanded(            
+                  SizedBox(height: 14,),
+                  Expanded(  
+                    flex: 1,          
                     child: Container(                                    
                       child: Swiper(                             
                         onIndexChanged: (value) {
@@ -175,6 +177,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                                     setState(() {
                                                       dayIndex = -1;
                                                     });
+                                                  }else{
+                                                    setState(() {
+                                                      dayIndex = index;
+                                                    });
                                                   }
                                                   print(dayIndex);
                                                   print("Length of cities list : ${cities.length}");
@@ -189,7 +195,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 6),
                                         child: AutoSizeText(
-                                          "${cities[index].cityName[0].toUpperCase()}${cities[index].cityName.substring(1)}, ${cities[index].countryCode}",
+                                          "${cities[index].cityName[0].toUpperCase()}${cities[index].cityName.substring(1).toLowerCase()}, ${cities[index].countryCode}",
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontFamily: "Montserrat",
@@ -250,7 +256,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 6),
                                         child: AutoSizeText(
-                                          "${cities[index].description}",
+                                          "${cities[index].description0}",
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontFamily: "Montserrat",
@@ -263,7 +269,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                       ),
                                       SizedBox(height: 5,),
                                       Text(
-                                        "${cities[index].finalLowTemp}°C / ${cities[index].finalHighTemp}°C",
+                                        "${cities[index].finalLowTemp0}°C / ${cities[index].finalHighTemp0}°C",
                                         style: TextStyle(
                                           fontFamily: "Montserrat",
                                           fontSize: 12,
@@ -285,7 +291,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 60,),
+                  SizedBox(height: 40,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(                  
@@ -304,7 +310,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
                                         AssetImage("assets/c04d.png") :
-                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description}"]}")
+                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description0}"]}")
                                     )
                                   ),
                                 ),
@@ -312,7 +318,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   // "data",
                                   // "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C",
                                   dayIndex == -1 ? "No Data" :
-                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  "${cities[dayIndex].finalLowTemp0}°C/${cities[dayIndex].finalHighTemp0}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12
@@ -338,7 +344,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
                                         AssetImage("assets/c04d.png") :
-                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description}"]}")
+                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description1}"]}")
                                     )
                                   ),
                                 ),
@@ -346,7 +352,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 Text(
                                   // "data",
                                   dayIndex == -1 ? "No Data":
-                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  "${cities[dayIndex].finalLowTemp1}°C/${cities[dayIndex].finalHighTemp1}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12
@@ -372,7 +378,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                     image: DecorationImage(
                                       image: dayIndex == -1 ?
                                         AssetImage("assets/c04d.png") :
-                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description}"]}")
+                                        AssetImage("assets/${weatherIcons["${cities[dayIndex].description2}"]}")
                                     )
                                   ),
                                 ),
@@ -380,7 +386,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 Text(
                                   // "data",
                                   dayIndex == -1 ? "No Data" :
-                                  "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
+                                  "${cities[dayIndex].finalLowTemp2}°C/${cities[dayIndex].finalHighTemp2}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12
@@ -395,7 +401,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(height: 20,),
                 ],
               ),
             ),

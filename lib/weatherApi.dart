@@ -13,12 +13,22 @@ class Weather {
   String currentMonth;
   String finalDate;
   String errorText;
-  String description;
-  dynamic lowTemp;
-  dynamic highTemp;
+  String description0;
+  String description1;
+  String description2;
+  dynamic lowTemp0;
+  dynamic lowTemp1;
+  dynamic lowTemp2;
+  dynamic highTemp0;
+  dynamic highTemp1;
+  dynamic highTemp2;
 
-  String finalLowTemp;
-  String finalHighTemp;
+  String finalLowTemp0;
+  String finalHighTemp0;
+  String finalLowTemp1;
+  String finalHighTemp1;
+  String finalLowTemp2;
+  String finalHighTemp2;
 
   List<String> months = [
     "January",
@@ -49,14 +59,14 @@ class Weather {
       Map currentDatatemp = jsonDecode(response2.body);
       List tempData = currentDatatemp['data'];
       Map finalTempData = tempData[0];
-      Map weatherDetails = finalTempData['weather'];
+      Map weatherDetails = finalTempData['weather'];      
 
       // print(data['data']);
       List dataList = data['data'];
       Map day0 = dataList[0];      
       Map day1 = dataList[1];
       Map day2 = dataList[2];
-      date = day0['datetime'];
+      date = day0['datetime'];      
       
       if(date[5] == '0'){
         currentMonth = months[int.parse(date[6]) - 1];        
@@ -68,13 +78,32 @@ class Weather {
       temp = finalTempData['temp'];
       finalTemp = "$temp";
       feelsLike = "${finalTempData['app_temp']}";
-      description = weatherDetails['description'];
+      // for day 0
+      description0 = weatherDetails['description'];
 
-      lowTemp = day0['low_temp'];
-      highTemp = day0['max_temp']; 
+      lowTemp0 = day0['low_temp'];
+      highTemp0 = day0['max_temp']; 
 
-      finalLowTemp = "$lowTemp";    
-      finalHighTemp = "$highTemp";
+      finalLowTemp0 = "$lowTemp0";    
+      finalHighTemp0 = "$highTemp0";
+
+      // for day 1 
+      Map weatherDetails1 = day1['weather'];
+      description1 = weatherDetails1['description'];
+      lowTemp1 = day1['low_temp'];
+      highTemp1 = day1['max_temp']; 
+
+      finalLowTemp1 = "$lowTemp1";    
+      finalHighTemp1 = "$highTemp1";
+
+      // for day 2
+      Map weatherDetails2 = day2['weather'];
+      description2 = weatherDetails2['description'];
+      lowTemp2 = day2['low_temp'];
+      highTemp2 = day2['max_temp']; 
+
+      finalLowTemp2 = "$lowTemp2";    
+      finalHighTemp2 = "$highTemp2";
 
       // feelsLike = double.parse(finalTempData['app_temp']);
 
