@@ -90,10 +90,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     child: Container(                                    
                       child: Swiper(                             
                         onIndexChanged: (value) {
-                           setState(() {
-                             dayIndex = value;
-                           });                                                
-                          print(value);
+                           
                         },                              
                         itemCount: cities.length,                        
                         itemBuilder: (context, index) {                          
@@ -133,8 +130,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                                 shape: CircleBorder(),
                                                 onPressed: () {
                                                   setState(() {
-                                                    cities.remove(cities[index]);
+                                                    cities.remove(cities[index]);                                                    
                                                   });
+                                                  if(cities.length == 0){
+                                                    setState(() {
+                                                      dayIndex = -1;
+                                                    });
+                                                  }
+                                                  print(dayIndex);
                                                   print("Length of cities list : ${cities.length}");
                                                 },                                            
                                                 child: Icon(Icons.remove, color: Colors.redAccent,),
@@ -235,7 +238,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     child: Row(                  
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,                  
                       children: <Widget>[
-                        dayIndex == -1? SizedBox(width: 1,) :
+                        // dayIndex == -1? SizedBox(width: 1,) :
                         Expanded(
                           child: Container(
                             child: Column(
@@ -246,6 +249,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 Text(
                                   // "data",
                                   // "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C",
+                                  dayIndex == -1 ? "No Data" :
                                   "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
@@ -258,7 +262,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             ),
                           ),
                         ),
-                        dayIndex == -1? SizedBox(width: 1,) :
+                        // dayIndex == -1? SizedBox(width: 1,) :
                         Expanded(
                           child: Container(
                             child: Column(
@@ -269,6 +273,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 SizedBox(height: 1,),
                                 Text(
                                   // "data",
+                                  dayIndex == -1 ? "No Data":
                                   "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
@@ -281,7 +286,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             ),
                           ),
                         ),
-                        dayIndex == -1? SizedBox(width: 1,) :
+                        // dayIndex == -1? SizedBox(width: 1,) :
                         Expanded(
                           child: Container(
                             child: Column(
@@ -292,6 +297,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 SizedBox(height: 1,),
                                 Text(
                                   // "data",
+                                  dayIndex == -1 ? "No Data" :
                                   "${cities[dayIndex].finalLowTemp}°C/${cities[dayIndex].finalHighTemp}°C", 
                                   style: TextStyle(
                                     color: Colors.white70,
