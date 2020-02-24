@@ -23,7 +23,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   List<Weather> cities = [];
   
   int dayIndex = -1;
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +73,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                       IconButton(
                         icon: Icon(Icons.add),
-                        onPressed: () async {
-                          if(dayIndex == -1){
-                            setState(() {
-                              dayIndex = 0;
-                            });
-                          }
+                        onPressed: () async {                          
                           _awaitReturnValueFromSecondScreen(context);                          
                         },
                         color: Colors.white60
@@ -90,7 +85,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     child: Container(                                    
                       child: Swiper(                             
                         onIndexChanged: (value) {
-                           
+                           if(dayIndex != -1){
+                             setState(() {
+                               dayIndex = value;
+                             });
+                           }
                         },                              
                         itemCount: cities.length,                        
                         itemBuilder: (context, index) {                          
@@ -327,7 +326,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
     final Weather result = await Navigator.push(
       context,
-      PageTransition(child: SearchPage(), type: PageTransitionType.rightToLeftWithFade)
+      PageTransition(child: SearchPage(), type: PageTransitionType.rightToLeftWithFade),      
     );
 
     if (result != null){
@@ -335,6 +334,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         cities.add(result);        
       });
     }    
+
+    if(dayIndex == -1){
+      setState(() {
+        dayIndex = 0;
+      });
+    }
     
   }
   

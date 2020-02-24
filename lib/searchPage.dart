@@ -12,19 +12,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
 
   PageController controller = PageController();
-  final TextEditingController mycontroller = TextEditingController();
-
+  final TextEditingController mycontroller = TextEditingController();  
   
 
   @override
   Widget build(BuildContext context) {    
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.amber,
-      //   title: Text("data"),
-      //   centerTitle: true,
-      //   elevation: 0,
-      // ),
 
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -59,13 +52,14 @@ class _SearchPageState extends State<SearchPage> {
                         padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Row(
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_back_ios),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              color: Colors.white60
-                            ),
+                            // IconButton(
+                            //   icon: Icon(Icons.arrow_back_ios),
+                            //   onPressed: () {
+                            //     Navigator.pop(context);
+                            //   },
+                            //   color: Colors.white60
+                            // ),
+                            SizedBox(width: 1,),
                             SizedBox(width: 1,)
                           ],
                         ),
