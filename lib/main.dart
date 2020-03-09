@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'weatherApi.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'searchPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:async/async.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -21,8 +24,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
   String text = "";  
   List<Weather> cities = [];
+  List<String> cityNames = [];
   
   int dayIndex = -1;
+  
 
   Map weatherIcons = {
     "Thunderstorm with light rain" : "t01d.png",
@@ -58,6 +63,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Fog" : "a01d.png",
     "Freezing Fog" : "a01d.png",
     "Clear Sky" : "c01d.png",
+    "Clear sky" : "c01d.png",
     "Few clouds" : "c02d.png",
     "Broken clouds" : "c03d.png",
     "Overcast clouds" : "c04d.png",
@@ -100,6 +106,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Fog" : "foggy.jpg",
     "Freezing Fog" : "aestheticEvening.jpg",
     "Clear Sky" : "clearMorning.jpg",
+    "Clear sky" : "clearMorning.jpg",
     "Few clouds" : "CloudyDay.jpg",
     "Broken clouds" : "animeMorning.jpg",
     "Overcast clouds" : "CloudyDay.jpg",
@@ -107,6 +114,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     "Unknown Precipitation" : "heavyRain.jpg",
     "null" : "rainyDay.jpg",
   };
+
+  List<String> bg = [];
 
 
   @override
@@ -141,7 +150,21 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       IconButton(
                         icon: Icon(Icons.info),
                         onPressed: () {
-                          print(dayIndex);     
+                          // print(dayIndex);
+                          return Alert(
+                            context: context,
+                            title: "Hola!!",
+                            desc: "Developed by Xyber",
+                            buttons: [
+                              DialogButton(
+                                child: Text("Awesome!"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                            
+                          ).show();
                         },
                         color: Colors.white60
                       ),
@@ -177,7 +200,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                            }
                         },                              
                         itemCount: cities.length,                        
-                        itemBuilder: (context, index) {                          
+                        itemBuilder: (context, index) {
                           return Container(
                             height: 100,
                             width: 300,
@@ -186,7 +209,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                               child: Container(
                                 decoration: BoxDecoration(                                 
                                   image: DecorationImage(                                  
-                                    image: AssetImage("assets/${weatherBackground["${cities[dayIndex].description0}"]}"),
+                                    image: AssetImage("assets/${weatherBackground["${bg[index]}"]}"),
                                     fit: BoxFit.fill
                                   )
                                 ),
@@ -194,8 +217,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        Colors.black.withOpacity(0.45),
-                                        Colors.black.withOpacity(0.45)
+                                        Colors.black.withOpacity(0.40),
+                                        Colors.black.withOpacity(0.40)
                                       ]
                                     )
                                   ),
@@ -222,10 +245,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                                       setState(() {
                                                         dayIndex = 0;
                                                       });
-                                                    }else{ // when more than 2 places are left
-                                                      setState(() {
+                                                    }else{ // when more than 2 places are left                                                      
+                                                      if(index == cities.length - 1){
+                                                        dayIndex -= 1;
+                                                      }else{
                                                         dayIndex = index;
-                                                      });
+                                                      }
                                                     }
                                                   }
                                                   setState(() {
@@ -317,6 +342,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                           color: Colors.grey[200],
                                         ),
                                       ),
+                                      SizedBox(height: 10,),
+                                      IconButton(
+                                        icon: Icon(Icons.refresh, color: Colors.grey[200],),
+                                        
+                                      )
                                     ],
                                   ),
                                 )
@@ -325,8 +355,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             
                           );
                         },
+                        
                         loop: false,
-                        scale: 0.80,
+                        scale: 0.75,
                         viewportFraction: 0.74,
                       ),
                     ),
@@ -367,8 +398,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 ),
                                 SizedBox(height: 1,),
                                 Text(
-                                  dayIndex == -1 ? "" : "day0", 
+                                  dayIndex == -1 ? "" : "Today", 
                                   style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 12,
                                     color: Colors.white70
                                   ),
                                 ),
@@ -406,9 +439,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 ),
                                 SizedBox(height: 1,),
                                 Text(
-                                  dayIndex == -1 ? "" : "day1", 
+                                  dayIndex == -1 ? "" : "Tomorrow", 
                                   style: TextStyle(
-                                    color: Colors.white70
+                                    color: Colors.white70,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 12
                                   ),
                                 ),
                               ],
@@ -445,9 +480,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 ),
                                 SizedBox(height: 1,),
                                 Text(
-                                  dayIndex == -1 ? "" : "day2", 
+                                  dayIndex == -1 ? "" : "Next Day", 
                                   style: TextStyle(
-                                    color: Colors.white70
+                                    color: Colors.white70,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 12
                                   ),
                                 ),
                               ],
@@ -478,6 +515,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
       setState(() {        
         cities.add(result);        
       });
+      setState(() {
+        cityNames.add(result.cityName);
+      });
     }    
 
     if(dayIndex == -1){
@@ -485,6 +525,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         dayIndex = 0;
       });
     }
+
+    setState(() {
+      bg.add(result.description0);
+    });
     
   }
   

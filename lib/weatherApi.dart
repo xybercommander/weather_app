@@ -70,7 +70,7 @@ class Weather {
       
       if(date[5] == '0'){
         currentMonth = months[int.parse(date[6]) - 1];        
-      }else {
+      }else { 
         currentMonth = months[(int.parse(date[6]) + 10) - 1];
       }
       finalDate = "$currentMonth ${date.substring(8)}, ${date.substring(0, 4)}";      
